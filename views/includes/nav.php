@@ -30,7 +30,7 @@ if(!empty($_SESSION) && $_SESSION['id'] > 0)
             if($_SESSION['admin'] == 1)
             {   
               echo '<li class="nav-item">';
-              echo '<a class="nav-link" href="admin/index.php">Admin space</a>';
+              echo '<a class="nav-link" href="index.php?page=admin">Admin space</a>';
               echo '</li>';
             }
       ?>
