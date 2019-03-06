@@ -48,6 +48,12 @@
             {
                 $req_files = $db->prepare('SELECT * FROM files WHERE member_id = ? AND access = ? ORDER BY id DESC');
                 $req_files->execute(array($_SESSION['id'], $_POST['access']));
+            }
+            else
+            {
+                $req_files = $db->prepare('SELECT * FROM files WHERE member_id = ? ORDER BY id DESC');
+                $req_files->execute(array($_SESSION['id']));
+            }
 ?>
             <table style="margin-top:2%; margin-left:2%; width:125%" class="table table-bordered table-dark">
             <thead>
@@ -84,7 +90,7 @@
                 
                 
 
-            }
+
             
 
         ?>

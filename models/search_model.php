@@ -50,16 +50,4 @@ if(!empty($_SESSION))
 ?>
 
 
-<style>
-.row {
-  display: flex;
-}
-
-.column {
-  flex: 50%;
-  border: 2px solid black;  
-}
-
-</style>
-
 
