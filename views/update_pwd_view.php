@@ -33,6 +33,8 @@
         }
 </style>
 
+
+
 <br>
 <h1 class="title-pen"> User Profile <span><?= $user_name; ?></span></h1>
 

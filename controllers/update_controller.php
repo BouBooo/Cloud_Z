@@ -1,4 +1,5 @@
 <?php
+session_start();
 
     $updateError = "";
     $updateSuccess = "";
@@ -19,7 +20,7 @@
     }
     else
     {
-        header('Location: connexion.php');
+        header('Location: index.php?page=connexion');
     }
     
 

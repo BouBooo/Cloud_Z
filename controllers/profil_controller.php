@@ -1,4 +1,5 @@
 <?php
+session_start();
 
     if(!empty($_SESSION['id']) && $_SESSION['id'] > 0)
     {
@@ -14,7 +15,7 @@
 
         if($user_rank == 1)
         {
-            $user_rank = "<p>Admin</p>  <a class='btn btn-primary btn-sm' href='admin/index.php'>Admin interface</a>";
+            $user_rank = "<p>Admin</p>  <a class='btn btn-primary btn-sm' href='index.php?page=admin'>Admin interface</a>";
         }
         else
         {

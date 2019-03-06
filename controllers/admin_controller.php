@@ -1,4 +1,5 @@
 <?php
+session_start();
 
     if(!empty($_SESSION['id']) && $_SESSION['id'] > 0)
     {

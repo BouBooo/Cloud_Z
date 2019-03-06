@@ -1,8 +1,5 @@
 <?php
 
-
-
-    include_once '_conf/config.php';
     include_once '_classes/database.php';
     include_once '_functions/functions.php';
     include_once 'views/includes/head.php';

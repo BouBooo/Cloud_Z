@@ -5,7 +5,7 @@
 
 
 <div align="center">
-  <a href="actions.php"><button class="btn btn-dark btn-lg mt-4">Last actions</button></a>
+  <a href="index.php?page=actions"><button class="btn btn-dark btn-lg mt-4">Last actions</button></a>
 </div>
 
 

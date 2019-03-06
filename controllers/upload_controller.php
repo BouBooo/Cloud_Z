@@ -1,5 +1,5 @@
 <?php
-//session_start();
+session_start();
 
 $file_exist = false;
 $uploadError = "";
