@@ -69,3 +69,13 @@
 
     </div>
 
+<script>
+    function myFunction() {
+
+        var copyText = document.getElementById("myKey");
+        copyText.select();
+        document.execCommand("copy");
+        alert("Key copied ! Ctr+V to use it");
+    }
+</script>
+

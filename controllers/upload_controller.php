@@ -64,7 +64,11 @@ if(!empty($_SESSION['id']) && $_SESSION['id'] > 0)
                                 $file_key = generateRandomString(12);
                                 $add_file = $db->prepare("INSERT INTO files (name,file_key,access,size,type,path, member_id) values (?,?,?,?,?,?,?)");
                                 $add_file->execute(array($file_name,$file_key,$_POST['access'],$_FILES['fichier']['size']/1000,$_FILES['fichier']['type'],$file_tmp_name,$_SESSION['id']));
-                                $uploadSuccess = "<div class='alert alert-success'>Votre fichier a été upload avec succès <br> Votre clé fichier est la suivante : <b>".$file_key."</b></div>";
+                                
+                                $uploadSuccess = "<div style='text-align:center' class='alert alert-success'>Votre fichier a été upload avec succès <br> 
+                                                Votre clé fichier est la suivante : <br>
+                                                <input type='text'value='".$file_key."' id='myKey' readonly><br>
+                                                <button class='btn btn-light' onclick='myFunction()'>Copy</button></div>";
                             }
                             else if($_POST['access'] == "public")
                             {
