@@ -47,3 +47,19 @@ if(!empty($_SESSION))
     {
         header('Location: index.php?page=connexion');
     }
+?>
+
+
+<style>
+.row {
+  display: flex;
+}
+
+.column {
+  flex: 50%;
+  border: 2px solid black;  
+}
+
+</style>
+
+

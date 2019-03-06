@@ -16,6 +16,11 @@
 
     $error_msg = "";
 
+    if(!empty($_SESSION['id']))
+    {
+      header('Location: index.php?page=profil');
+    }
+
     if(isset($_POST['login']))
     {
       $_SESSION['sign_succes'] = "";

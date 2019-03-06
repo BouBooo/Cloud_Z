@@ -11,7 +11,17 @@
                    <p class="alert alert-warning">Are you sure you want to delete this user ? </p>
                     <div class="form-actions">
                         <button type="submit" class="btn btn-warning">Yes</button>
-                        <a class="btn btn-default" href="index.php">No</a>
+                        <a class="btn btn-default" href="                                                
+                                                  <?php
+                                                    if($_SESSION['admin'] == 1)
+                                                    {
+                                                        echo "index.php?page=admin";
+                                                    }
+                                                    else
+                                                    {
+                                                        echo "index.php?page=files";
+                                                    }
+                                                    ?>">No</a>
                    </div>
                 </form>
 

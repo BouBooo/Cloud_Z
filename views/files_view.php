@@ -46,10 +46,21 @@
     <?php 
             if(!empty($_POST['see_files']))
             {
-                $req_files = $db->prepare('SELECT * FROM files WHERE member_id = ? AND access = ?');
+                $req_files = $db->prepare('SELECT * FROM files WHERE member_id = ? AND access = ? ORDER BY id DESC');
                 $req_files->execute(array($_SESSION['id'], $_POST['access']));
-
-                echo ' <table style="margin-top:2%; width:100%" class="table table-striped table-dark">';
+?>
+            <table style="margin-top:2%; margin-left:2%; width:125%" class="table table-bordered table-dark">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Accessibility</th>
+                    <th>Key (private files only)</th>
+                    <th>View</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+<?php
                 while($data = $req_files->fetch())
                 {
                     echo'<tr>';
@@ -57,13 +68,16 @@
                     echo $data['name'];
                     echo '</td>';
                     echo '<td>';
-                    echo ' <b>' . $data['access'] . ' file</b>    ';
+                    echo  $data['access'] . ' file';
+                    echo '</td>';
+                    echo '<td>';
+                    echo $data['file_key'];
                     echo '</td>';
                     echo '<td>';
                     echo  '<a class="btn btn-primary" href="files/'.$data['name'].'"> View</a> <br>';
                     echo '</td>';
                     echo '<td>';
-                    echo  '<a class="btn btn-primary" href="delete_file.php?id='.$data['id'].'"> Delete   </a> <br>';
+                    echo  '<a class="btn btn-primary" href="index.php?page=delete_file&id='.$data['id'].'"> Delete   </a> <br>';
                     echo '</td>';
                     echo'</tr>';
                 }

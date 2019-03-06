@@ -5,6 +5,20 @@ $file_exist = false;
 $uploadError = "";
 $uploadSuccess = "";
 
+
+// Generate random string (10chars)
+
+function generateRandomString($length = 10) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
+}
+
+
 //var_dump($_SESSION);
 if(!empty($_SESSION['id']) && $_SESSION['id'] > 0)
 {
@@ -28,7 +42,7 @@ if(!empty($_SESSION['id']) && $_SESSION['id'] > 0)
                         $db = Database::connect();
                         $add_file = $db->prepare("SELECT * FROM files WHERE member_id = ?");
                         $add_file->execute(array($_SESSION['id']));
-                        var_dump($_FILES);
+
                         foreach($add_file as $file)
                         {
                             $file_type = $_FILES['fichier']['type'];
@@ -45,9 +59,19 @@ if(!empty($_SESSION['id']) && $_SESSION['id'] > 0)
                         }
                         if($file_exist == false)
                         {
-                            $add_file = $db->prepare("INSERT INTO files (name,access,size,type,path, member_id) values (?,?,?,?,?,?)");
-                            $add_file->execute(array($file_name,$_POST['access'],$file_size,$file_type,$file_tmp_name,$_SESSION['id']));
-                            $uploadSuccess = "<div class='alert alert-success'>Votre fichier a été upload avec succès</div>";
+                            if($_POST['access'] == "private")
+                            {
+                                $file_key = generateRandomString(12);
+                                $add_file = $db->prepare("INSERT INTO files (name,file_key,access,size,type,path, member_id) values (?,?,?,?,?,?,?)");
+                                $add_file->execute(array($file_name,$file_key,$_POST['access'],$_FILES['fichier']['size']/1000,$_FILES['fichier']['type'],$file_tmp_name,$_SESSION['id']));
+                                $uploadSuccess = "<div class='alert alert-success'>Votre fichier a été upload avec succès <br> Votre clé fichier est la suivante : <b>".$file_key."</b></div>";
+                            }
+                            else if($_POST['access'] == "public")
+                            {
+                                $add_file = $db->prepare("INSERT INTO files (name,access,size,type,path, member_id) values (?,?,?,?,?,?)");
+                                $add_file->execute(array($file_name,$_POST['access'],$_FILES['fichier']['size']/1000,$_FILES['fichier']['type'],$file_tmp_name,$_SESSION['id']));
+                                $uploadSuccess = "<div class='alert alert-success'>Votre fichier a été upload avec succès <br> Il est maintenant accessible à tout le monde</div>";
+                            }
                         }
                         else
                         {

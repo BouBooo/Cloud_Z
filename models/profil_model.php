@@ -16,7 +16,10 @@ if(!empty($_SESSION))
         <a class="nav-link" href="index.php?page=update">Edit profile</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="index.php?page=files">Files</a>
+        <a class="nav-link" href="index.php?page=files">My files</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="index.php?page=search">Search</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="index.php?page=upload">Upload</a>

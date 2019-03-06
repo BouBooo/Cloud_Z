@@ -38,10 +38,10 @@
                     echo ' <b>' . $data['access'] . ' file</b>    ';
                     echo '</td>';
                     echo '<td>';
-                    echo  '<a class="btn btn-primary" href="' . $data['path'] . '"> Télécharger</a> <br>';
+                    echo  '<a class="btn btn-primary" href="files/'.$data['name'].'"> View</a> <br>';
                     echo '</td>';
                     echo '<td>';
-                    echo  '<a class="btn btn-primary" href="delete_file.php?id='.$data['id'].'"> Supprimer   </a> <br>';
+                    echo  '<a class="btn btn-primary" href="index.php?page=delete_file&id='.$data['id'].'"> Supprimer   </a> <br>';
                     echo '</td>';
                     echo'</tr>';
                 }
