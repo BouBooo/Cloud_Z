@@ -129,7 +129,4 @@
     <div class="description">
         <?= $user_desc; ?>
   </div>
-
-    <a href="index.php?page=messagerie">Generate random string</a>
-
 </div>

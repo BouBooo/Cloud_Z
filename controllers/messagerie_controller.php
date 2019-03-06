@@ -1,15 +1,26 @@
 <?php
-function generateRandomString($length = 10) {
-    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    $charactersLength = strlen($characters);
-    $randomString = '';
-    for ($i = 0; $i < $length; $i++) {
-        $randomString .= $characters[rand(0, $charactersLength - 1)];
+session_start();
+
+$message_error = "";
+
+$db = Database::connect();
+$getUsers = $db->prepare("SELECT email FROM membres WHERE NOT (email = ?)");
+$getUsers->execute(array($_SESSION['email']));
+
+
+if(!empty($_POST['send_message']))
+{
+    $destinataire = $_POST['destinataire'];
+    $message = $_POST['message'];
+
+    if(!empty($destinataire) && !empty($message))
+    {
+        // continue
     }
-    return $randomString;
+    else 
+    {
+        $message_error = "<span class='alert alert-danger'>A message needs a receiver and a content.</span>";
+    }
 }
-
-echo generateRandomString();
-
 
 ?>
