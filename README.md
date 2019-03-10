@@ -1,5 +1,11 @@
 # Cloud_Z
 
+# About
+
+ - Langages : PHP, HTML, CSS, JS
+ - Development environment : Windows
+ - Database : MySql
+
 # Features
 
 - Member area
