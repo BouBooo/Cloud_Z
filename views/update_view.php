@@ -6,6 +6,11 @@
         font-family: 'entypo', sans-serif;
         }
 
+        body  {
+            background-color: #76B12E;
+
+        }
+
         .title-pen {
         color: #333;
         font-family: "Coda", sans-serif;
@@ -98,6 +103,8 @@
         text-decoration: none;
         color: #ea4c89;
         }
+
+
 </style>
 
 <br>

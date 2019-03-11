@@ -24,6 +24,9 @@ if(!empty($_SESSION))
       <li class="nav-item">
         <a class="nav-link" href="index.php?page=upload">Upload</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="index.php?page=messagerie">Messagerie</a>
+      </li>
 
       <?php    
             if($_SESSION['admin'] == 1)

@@ -1,44 +1,27 @@
-
 <div class="container">
+    <div align="center">
+        <h1>Boite de reception</h1>
 
-    <h1 align="center">Send a message</h1>
+        <a class="btn btn-info" href="index.php?page=envoi">New message</a>
 
-    <form method="POST" action="">       
-  <table style="margin-top:2%; margin-left:10%; width:80%" class="table table-striped table-dark p-5">
+        <br>
+        <br>
 
-  <tr>
-      <td>
-          <label for="destinataire">For : </label>
-      </td>
-      <td>
-          <select class="form-control form-control-sm" name="destinataire" id="destinataire">
-          <?php
-            while($data = $getUsers->fetch())
+
+        <?= $no_msg ?>
+
+        <?php 
+            while($message = $msg->fetch())
             {
-                echo '<option value="'.$data["email"].'">'.$data["email"].'</option>';
+                $p_exp = $db->prepare('SELECT email FROM membres WHERE id = ?');
+                $p_exp->execute(array($message['id_expediteur']));
+                $p_exp = $p_exp->fetch();
+                $p_exp = $p_exp['email'];
+            ?>
+            <p>New message from <?= $p_exp ?>  :  <?= $message['message'] ?> <br>
+        
+            <?php
             }
             ?>
-          </select>
-      </td>
-  </tr>
-  <tr>
-      <td>
-          <label for="message">Message : </label>
-      </td>
-      <td>
-          <textarea placeholder="Your message" name="message">Hi !
-          </textarea>
-      </tr>
-  </tr>
-  <tr>
-      <td></td>
-      <td>
-      <br>
-      <input type="submit" value="Send" name="send_message" class="btn btn-primary btn-xl"/> 
-      </td>
-  </tr>
-  </table>
-
-        <?= $message_error; ?>
-
+    </div>
 </div>

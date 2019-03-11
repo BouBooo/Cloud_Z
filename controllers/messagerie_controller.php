@@ -1,26 +1,15 @@
 <?php
 session_start();
 
-$message_error = "";
+$no_msg = "";
+
 
 $db = Database::connect();
-$getUsers = $db->prepare("SELECT email FROM membres WHERE NOT (email = ?)");
-$getUsers->execute(array($_SESSION['email']));
+$msg = $db->prepare("SELECT * FROM messages WHERE id_destinataire = ?");
+$msg->execute(array($_SESSION['id']));
+$msg_nbr = $msg->rowCount();
 
-
-if(!empty($_POST['send_message']))
+if($msg_nbr == 0)
 {
-    $destinataire = $_POST['destinataire'];
-    $message = $_POST['message'];
-
-    if(!empty($destinataire) && !empty($message))
-    {
-        // continue
-    }
-    else 
-    {
-        $message_error = "<span class='alert alert-danger'>A message needs a receiver and a content.</span>";
-    }
+    $no_msg = "<span class='alert alert-warning'>You don't have any message :( <span>";
 }
-
-?>

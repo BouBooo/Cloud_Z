@@ -1,6 +1,5 @@
 <style>
-        @import url(https://fonts.googleapis.com/css?family=Raleway|Varela+Round|Coda);
-        @import url(http://weloveiconfonts.com/api/?family=entypo);
+
 
         [class*="entypo-"]:before {
         font-family: 'entypo', sans-serif;
@@ -98,6 +97,7 @@
         text-decoration: none;
         color: #ea4c89;
         }
+
 
 </style>
 
