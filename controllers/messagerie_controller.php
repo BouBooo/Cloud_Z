@@ -5,7 +5,7 @@ $no_msg = "";
 
 
 $db = Database::connect();
-$msg = $db->prepare("SELECT * FROM messages WHERE id_destinataire = ?");
+$msg = $db->prepare("SELECT * FROM messages WHERE id_destinataire = ? ORDER BY id DESC");
 $msg->execute(array($_SESSION['id']));
 $msg_nbr = $msg->rowCount();
 
