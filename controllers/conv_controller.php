@@ -1,34 +1,29 @@
 <?php
     session_start();
+    $db = Database::connect();
 
-    //shop not login  users from entering 
-    if(isset($_SESSION['id'])){
-        $db = Database::connect();
-    }
-    else
+    if(!empty($_POST['reply']))
     {
-        header("Location: index.php?page=connexion");
+        $message = htmlspecialchars($_POST['message']);
+        $destinataire_id = (int)$_GET['id'];
+        $expediteur_id = $_SESSION['id'];
+
+        $insert = $db->prepare("INSERT INTO messages (id_expediteur, id_destinataire, message, postedAt) VALUES (?,?,?,NOW())");
+        $insert->execute(array($expediteur_id, $destinataire_id, $message));
+        echo 'posted';
+        
+    }
+
+    if(!empty($_POST['delete_msg']))
+    {
+        // Delete message
+
+        $id = $_POST['id'];
+        var_dump($id);
+        $delete = $db->prepare("DELETE FROM messages WHERE id = ? AND id_expediteur = ?");
+        $delete->execute(array($id, $_SESSION['id']));
     }
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Messenger Like</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    
-    <!-- Icon library -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
- 
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-    <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-</head>
-<body>
 
         <a class="btn btn-light" href="index.php?page=messagerie">Back</a>
         <strong>Messages for <?php echo $_SESSION['email']; ?> </strong>
@@ -54,11 +49,11 @@
         <div class="message-right">
             <div class="display-message">
             <?php
+
                 if(isset($_GET['id']))
                 {
-                    var_dump($_GET['id']);  
                     $destinataire = trim(htmlspecialchars($_GET['id']));
-                    $q = $db->prepare("SELECT id, email FROM membres WHERE id= ? AND id != ? ");
+                    $q = $db->prepare("SELECT * FROM membres WHERE id= ? AND id != ? ");
                     $q->execute(array($destinataire, $_SESSION['id']));
                     $item = $q->fetch();
                     $countRow = $q->rowCount();
@@ -67,42 +62,55 @@
                     {
 
                         // My msg
-                        $my_msg = $db->prepare("SELECT m.id, m.message, m.id_expediteur, m.id_destinataire, m.status, m.message
+                        $my_msg = $db->prepare("SELECT m.id, m.message, m.id_expediteur, m.id_destinataire, m.status, m.message, m.postedAt
                                                 FROM messages m 
                                                 WHERE (m.id_expediteur = ? AND m.id_destinataire = ?) 
+                                                OR (m.id_expediteur = ? AND m.id_destinataire = ?)
                                                 ");
-                        $my_msg->execute(array($_SESSION['id'], $destinataire));
+                        $my_msg->execute(array($_SESSION['id'], $destinataire, $destinataire, $_SESSION['id']));
                         $rows = $my_msg->fetchAll();
-
-                        // Other msg
-                        $other_msg = $db->prepare("SELECT m.id, m.message, m.id_expediteur, m.id_destinataire, m.status, m.message
-                                                FROM messages m 
-                                                WHERE (m.id_destinataire = ? AND m.id_expediteur = ?) 
-                                                ");
-                        $other_msg->execute(array($_SESSION['id'], $destinataire));
-                        $other = $other_msg->fetchAll();
 
                         $num = $my_msg->rowCount();
  
                         // Conversation
                         if($num > 0)
                         {
+                            $reload = '<img src="./assets/img/reload.png"/>';
+                        ?>
+
+                        <p align="center"><b>Conversation with <?= $item['email']?></b></p>
+                            <?php
+                           
                             foreach($rows as $row)
                             {
-                                $message = $row['message'] . ' (from ' . $_SESSION['email'] . ') <br>';
-                                ?>
-                                <div class="clear"></div>
-                                <div class="from-me slam">
-                                    <p>
-                                        <?= $message ?>
-                                        <p class="infos"></p>
-                                    </p>
-                                </div>
-
-                                <?php
-                                foreach($other as $user_msg)
+                                if($row['id_destinataire'] == $destinataire)
                                 {
-                                    $other_message = $user_msg['message'] . ' (from ' . $item['email'] . ') <br>';
+                                    $message = $row['message'] . ' <br>';
+                                    ?>
+                                    <div class="clear"></div>
+                                    <div class="from-me slam">
+                                        <p>
+                                            <?= $message ?>
+                                            <form action="" method="POST">
+                                            <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                                            <div class="container">
+                                                <div class="element1">
+                                                    <p class="infos">Delivered at <?=$row['postedAt'] ?></p>
+                                                </div>
+                                                    
+                                                <div class="element2">
+                                                <input class="btn btn-danger" type="submit" name="delete_msg" value="Delete">
+                                                <img width="25" src="./assets/img/delete.png"/>
+                                                </div>
+                                            </div>             
+                                        </p>
+                                    </div>
+
+                                    <?php
+                                }
+                                else
+                                {
+                                    $other_message = $row['message'] . ' <br>';
                                 
                                     ?>
                                     <div class="clear"></div>
@@ -111,11 +119,8 @@
                                         <p></p>
                                     </div>
                                     <?php
-                    
                                 }
-
                             }
-
                         }
                         else
                         { 
@@ -125,50 +130,12 @@
                     }
                     else
                     {
-                        die("Invalid $_GET ID.");
+                        header('Location: index.php?page=messagerie');
                     }
                 }
-                else 
-                {
-                    die("Click to start conversation");
-                }
-
-
-                if(isset($_POST['reply']))
-                {
-                    $message = htmlspecialchars($_POST['message']);
-                    $conversation_id = htmlspecialchars($_POST['conversation_id']);
-                    $user_form = htmlspecialchars($_POST['user_form']);
-                    $user_to = htmlspecialchars($_POST['user_to']);
-             
-            
-                    //insert into `messages`
-                    $db = Database::connect();
-                    $q = $db->prepare("INSERT INTO `messages` VALUES (?,?,?)");
-                    $q->execute($user_form, $user_to, $message);
-
-                    if($q)
-                    {
-                        echo "Posted";
-                    }else{
-                        echo "Error";
-                    }
-                }
-            ?>
+                        
+    ?>
+    
             </div>
  
 
-            <!-- Send message -->
-            <div class="send-message">
-                <div class="form-group">
-                    <textarea class="form-control" id="message" placeholder="Enter Your Message"></textarea>
-                </div>
-                <button class="btn btn-primary" id="reply">Reply</button> 
-                <span id="error"></span>
-            </div>
-        </div>
-    </div>
-    <script type="text/javascript" src="js/jquery.min.js"></script>
-    <script type="text/javascript" src="js/script.js"></script> 
-</body>
-</html>

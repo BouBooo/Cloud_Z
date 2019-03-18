@@ -7,6 +7,7 @@
     if(!empty($_SESSION))
     {
         include_once 'views/includes/nav.php';
+        $db = Database::connect();
     }
 
 
