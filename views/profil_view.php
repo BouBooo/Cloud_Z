@@ -98,6 +98,10 @@
         color: #ea4c89;
         }
 
+        body  {
+            background-color: #76B12E;
+
+        }
 
 </style>
 

@@ -12,6 +12,11 @@
         text-align: center;
         }
 
+        body  {
+            background-color: #76B12E;
+
+        }
+
 </style>
 
 

@@ -8,6 +8,12 @@ $db = Database::connect();
 $getUsers = $db->prepare("SELECT email FROM membres WHERE NOT (email = ?)");
 $getUsers->execute(array($_SESSION['email']));
 
+if(isset($_GET['response']) && !empty($_GET['response']))
+{
+    $response = htmlspecialchars($_GET['response']);
+    var_dump($response);
+}
+
 
 if(!empty($_POST['send_message']))
 {
@@ -21,7 +27,7 @@ if(!empty($_POST['send_message']))
         $id_destinataire = $id_destinataire->fetch();
         $id_destinataire = $id_destinataire['id'];
 
-        $insert = $db->prepare("INSERT INTO messages(id_expediteur, id_destinataire, message) VALUES(?,?,?)");
+        $insert = $db->prepare("INSERT INTO messages(id_expediteur, id_destinataire, postedAt, message) VALUES(?,?, NOW(),?)");
         $insert->execute(array($_SESSION['id'], $id_destinataire, $message));
 
         $message_success = "<span class='alert alert-success'>Your message has been send.</span>";

@@ -18,10 +18,17 @@
   <td>
       <select class="form-control form-control-sm" name="destinataire" id="destinataire">
       <?php
+      if(isset($response))
+      {
+        echo '<option value="'.$response.'">'.$response.'</option>';
+      }
+      else
+      {
         while($data = $getUsers->fetch())
         {
             echo '<option value="'.$data["email"].'">'.$data["email"].'</option>';
         }
+      }
         ?>
       </select>
   </td>

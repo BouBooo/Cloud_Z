@@ -1,3 +1,11 @@
+<style>
+        body  {
+            background-color: #76B12E;
+
+        }
+</style>
+
+
 <div class="container">
     <div align="center">
         <h1>Boite de reception</h1>
@@ -6,18 +14,18 @@
 
         <br>
         <br>
-        <table style="margin-top:2%; margin-left:10%; width:80%" class="table table-striped table-light p-5">
+        <table class="table table-striped table-light">
         <thead>
                 <tr>
                     <th>Status</th>
                     <th>From</th>
-                    <th>Object</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
 
         <?= $no_msg ?>
+        
 
         <?php 
             while($message = $msg->fetch())
@@ -26,20 +34,30 @@
                 $p_exp->execute(array($message['id_expediteur']));
                 $p_exp = $p_exp->fetch();
                 $p_exp = $p_exp['email'];
+                $id = $message['id'];
+
+                if($message['status'] == 1)
+                {
+                    $message_status = '<img width="35" src="./assets/img/opened.png"/>';
+                }
+                else
+                {
+                    $message_status = '<img width="40" src="./assets/img/message.png"/>';
+                }
             ?>
             <tr>
                 <td>
-                    
+                    <?= $message_status ?>
                 </td>
                 <td>
                     <?= $p_exp ?>
                 </td>
                 <td>
-                    <?= $message['object'] ?>
-                </td>
-                <td>
-                    <a href="index.php?page=read" class="btn btn-success">Read</a>
-                    <a href="index.php?page=delete_message" class="btn btn-danger">Delete</a>
+                <?php
+                    echo '<a href="index.php?page=read&id='.$id.'" class="btn btn-success">Read</a>';
+                    echo '&nbsp;';
+                    echo '<a href="index.php?page=delete_message&id='.$id.'" class="btn btn-danger">Delete</a>';
+                ?>
                 </td>
 
             </tr>
