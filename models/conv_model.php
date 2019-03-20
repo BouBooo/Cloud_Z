@@ -1,13 +1,10 @@
-
-
-
-
-
-
-
 <style>
-
 /*message*/
+body  {
+    background-color:#F0F0F0;
+
+}
+
 .message-body{
     display: block;
     height: 600px;

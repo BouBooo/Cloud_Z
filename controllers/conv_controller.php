@@ -2,6 +2,62 @@
     session_start();
     $db = Database::connect();
 
+if(!empty($_SESSION))
+    {
+?>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="index.php">Home</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="index.php?page=profil">Profile</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="index.php?page=update">Edit profile</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="index.php?page=files">My files</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="index.php?page=search">Search</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="index.php?page=upload">Upload</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="index.php?page=messagerie">Messagerie</a>
+      </li>
+
+      <?php    
+            if($_SESSION['admin'] == 1)
+            {   
+              echo '<li class="nav-item">';
+              echo '<a class="nav-link" href="index.php?page=admin">Admin space</a>';
+              echo '</li>';
+            }
+      ?>
+      <li class="nav-item">
+        <a class="nav-link" href="index.php?page=disconnect">Disconnect</a>
+      </li>
+    </ul>
+
+  </div>
+</nav>
+
+<?php
+    }
+    else
+    {
+        header('Location: index.php?page=connexion');
+    }
+?>
+
+
+<?php
+
     if(!empty($_POST['reply']))
     {
         $message = htmlspecialchars($_POST['message']);
@@ -24,11 +80,11 @@
         $delete->execute(array($id, $_SESSION['id']));
     }
 ?>
+        <br>
+        <h1 align="center">Messagerie</h1>
+        <br>
 
-        <a class="btn btn-light" href="index.php?page=messagerie">Back</a>
-        <strong>Messages for <?php echo $_SESSION['email']; ?> </strong>
-
-     
+<div class="user-profile"> 
     <div class="message-body">
         <div class="message-left">
             <ul>
@@ -90,17 +146,16 @@
                                     <div class="clear"></div>
                                     <div class="from-me slam">
                                         <p>
-                                            <?= $message ?>
+                                            <div class="row">
+                                                <?= $message ?>
+                                                <!--<img style="width:30; height:30" src="./assets/img/delete.png"/>-->
+                                            </div>
                                             <form action="" method="POST">
                                             <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
-                                            <div class="container">
-                                                <div class="element1">
-                                                    <p class="infos">Delivered at <?=$row['postedAt'] ?></p>
-                                                </div>
-                                                    
+                                            <div class="container">                                                    
                                                 <div class="element2">
-                                                <input class="btn btn-danger" type="submit" name="delete_msg" value="Delete">
-                                                <img width="25" src="./assets/img/delete.png"/>
+                                                <!--input class="btn btn-danger" type="submit" name="delete_msg" value="Delete">-->
+                                                
                                                 </div>
                                             </div>             
                                         </p>
