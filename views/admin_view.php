@@ -32,6 +32,8 @@
             while($data = $getUsers->fetch())
                 {
                     // Count how many files each user had uploaded
+
+                    //$DB->fetch('SELECT Djdifjz WHERE id = ?', [$id], false);
                     
                     $getUserFiles = $db->prepare("SELECT * FROM files WHERE member_id = ?");
                     $getUserFiles->execute(array($data['id']));

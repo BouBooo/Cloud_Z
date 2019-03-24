@@ -35,6 +35,23 @@
 </tr>
 <tr>
   <td>
+      <label for="object">Object : </label>
+  </td>
+  <td>
+  <?php
+      if(!empty($_SESSION['object']))
+      {
+        echo '<input type="text" name="object" value="RE: '.$_SESSION["object"].'"/>';
+      }
+      else
+      {
+        echo '<input type="text" name="object" placeholder="Object"/>';
+      }
+        ?>
+  </td>
+</tr>
+<tr>
+  <td>
       <label for="message">Message : </label>
   </td>
   <td>
@@ -58,3 +75,8 @@
 </div>
 
 </div>
+
+
+<?php
+$_SESSION["object"] = "";
+?>

@@ -118,7 +118,7 @@
     if(!empty($userinfo['img']))
     {
     ?>
-    <img src="membres/img/<?php echo $userinfo['img']; ?>" width="120" style="padding:10px">
+        <img src="membres/img/<?php echo $userinfo['img']; ?>" width="120" style="padding:10px">
     <?php
     }
     else

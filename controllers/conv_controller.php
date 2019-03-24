@@ -75,7 +75,6 @@ if(!empty($_SESSION))
         // Delete message
 
         $id = $_POST['id'];
-        var_dump($id);
         $delete = $db->prepare("DELETE FROM messages WHERE id = ? AND id_expediteur = ?");
         $delete->execute(array($id, $_SESSION['id']));
     }
@@ -84,19 +83,37 @@ if(!empty($_SESSION))
         <h1 align="center">Messagerie</h1>
         <br>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div class="user-profile"> 
     <div class="message-body">
         <div class="message-left">
             <ul>
                 <?php
+                
                     // Show all user, except current connected user
-                    $q = $db->prepare("SELECT * FROM membres WHERE id != ? ");
+                    $q = $db->prepare("SELECT mem.* FROM membres mem WHERE mem.id != ? ");
                     $q->execute(array($_SESSION['id']));
-                    $rows = $q->fetchAll();
+                    $convs = $q->fetchAll();
  
-                    foreach($rows as $row)
+                    foreach($convs as $conv)
                     {
-                        echo "<a href='index.php?page=conv&id=".$row['id']."'><li><img width='50' src='membres/img/".$row['img']."'> ".$row['email']."</li></a>";
+                        echo "<a href='index.php?page=conv&id=".$conv['id']."'><li><img width='50' src='membres/img/".$conv['img']."'> ".$conv['email']."</li></a>";
                     }
                 ?>
             </ul>
@@ -114,6 +131,7 @@ if(!empty($_SESSION))
                     $item = $q->fetch();
                     $countRow = $q->rowCount();
 
+
                     if($countRow == 1)
                     {
 
@@ -125,13 +143,11 @@ if(!empty($_SESSION))
                                                 ");
                         $my_msg->execute(array($_SESSION['id'], $destinataire, $destinataire, $_SESSION['id']));
                         $rows = $my_msg->fetchAll();
-
                         $num = $my_msg->rowCount();
  
                         // Conversation
                         if($num > 0)
                         {
-                            $reload = '<img src="./assets/img/reload.png"/>';
                         ?>
 
                         <p align="center"><b>Conversation with <?= $item['email']?></b></p>
@@ -139,6 +155,22 @@ if(!empty($_SESSION))
                            
                             foreach($rows as $row)
                             {
+                                
+
+                                if($row['status'] == 0)
+                                {
+                                    $read =  "<img style='float:right' width='30' src='./assets/img/read.png'/>";
+
+                                    // Update status
+                                    $updateStatus = $db->prepare('UPDATE messages SET status = 1 WHERE id_expediteur = ? AND id_destinataire = ?');
+                                    $updateStatus->execute(array($_SESSION['id'], $destinataire));
+                                    
+                                    
+                                }
+                                
+
+                                //$updateStatus = $db->prepare('UPDATE messages SET')
+
                                 if($row['id_destinataire'] == $destinataire)
                                 {
                                     $message = $row['message'] . ' <br>';
@@ -173,9 +205,11 @@ if(!empty($_SESSION))
                                         <?= $other_message ?>
                                         <p></p>
                                     </div>
+                                    
                                     <?php
                                 }
                             }
+
                         }
                         else
                         { 
@@ -188,9 +222,10 @@ if(!empty($_SESSION))
                         header('Location: index.php?page=messagerie');
                     }
                 }
-                        
-    ?>
     
+    ?>     
             </div>
+           
+ 
  
 

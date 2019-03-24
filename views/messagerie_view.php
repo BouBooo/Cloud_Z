@@ -18,6 +18,7 @@
         <thead>
                 <tr>
                     <th>Status</th>
+                    <th>Object</th>
                     <th>From</th>
                     <th>Actions</th>
                 </tr>
@@ -39,15 +40,20 @@
                 if($message['status'] == 1)
                 {
                     $message_status = '<img width="35" src="./assets/img/opened.png"/>';
+                    $message_object = $message['object'];
                 }
                 else
                 {
                     $message_status = '<img width="40" src="./assets/img/message.png"/>';
+                    $message_object = '<b>'. $message['object'].'</b>';
                 }
             ?>
             <tr>
                 <td>
                     <?= $message_status ?>
+                </td>
+                <td>
+                    <?= $message_object ?>
                 </td>
                 <td>
                     <?= $p_exp ?>

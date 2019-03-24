@@ -50,3 +50,47 @@ if(!empty($_SESSION))
     {
         header('Location: index.php?page=connexion');
     }
+
+
+?>
+
+<style>
+
+
+
+.message {
+  padding-top:2%;
+  width:40%;
+  height:30%;
+  background-color: #E9EBE6;
+  border-radius: 8px;
+}
+
+.date  {
+  font-size: 12px;
+  margin-bottom:1%;
+}
+
+.message:hover {
+  background-color: #C3C5C3;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 24px;
+}
+
+.participants {
+  width:40%;
+  text-align:left;
+}
+
+.buttons {
+  width:30%;
+  display:flex;
+  justify-content: space-between;
+}
+
+.element {
+  
+}
+
+</style>

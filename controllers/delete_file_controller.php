@@ -20,11 +20,13 @@ if(isset($_SESSION['id']) && $_SESSION['id'] > 0)
 
   if(!empty($_POST))
   {
-    $name = $user_infos['name'];
     $delete = $db->prepare("DELETE FROM files WHERE id = ?");
     $delete->execute(array($id));
-    $_SESSION['file_about'] = "<div class='alert alert-success'>File delete with success !</div>";
+
+
+    $_SESSION['file_about'] = "<div class='alert alert-success'>File (ID:".$id.") delete with success ! </div>";
     $_SESSION['file_name'] = "File deletion";
+
 
 
     // Save informations about this deletion
@@ -32,6 +34,7 @@ if(isset($_SESSION['id']) && $_SESSION['id'] > 0)
     $saveAction->execute(array($_SESSION['file_name'], $_SESSION['file_about'], $_SESSION['id']));
     Database::disconnect();
 
+    
     if($_SESSION['admin'] == 1)
     {
         header('Location: index.php?page=admin');
@@ -40,5 +43,6 @@ if(isset($_SESSION['id']) && $_SESSION['id'] > 0)
     {
         header('Location: index.php?page=files');
     }
+    
   }
 ?>

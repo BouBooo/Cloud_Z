@@ -61,6 +61,8 @@ if(isset($_POST['update']))
         }
         else if (isset($_FILES['img']) AND !empty($_FILES['img']['name']))   # Nouvelle photo de profil
         {
+            $fileName = $_FILES['img']['name'];
+            var_dump($fileName);
             $tailleMax = 2097152;
             $extensionsValides = array('jpg','jpeg','gif','png');
             if ($_FILES['img']['size' ] <= $tailleMax) 
@@ -68,12 +70,12 @@ if(isset($_POST['update']))
                 $extensionUpload = strtolower(substr(strrchr($_FILES['img']['name'], '.'), 1));
                 if(in_array($extensionUpload, $extensionsValides)) 
                 {
-                    $path = "membres/img/".$_SESSION['id'].".".$extensionUpload;
+                    $path = "membres/img/".$fileName;
                     $resultat = move_uploaded_file($_FILES['img']['tmp_name'], $path);
                     if($resultat)
                     {
                         $updateavatar = $db->prepare('UPDATE membres SET img = ? WHERE id = ?');
-                        $updateavatar->execute(array($_SESSION['id'].".".$extensionUpload, $_SESSION['id']));
+                        $updateavatar->execute(array($fileName, $_SESSION['id']));
                         $updateSuccess = "<div class='alert alert-success'>Avatar edited with success</div>";
                     }
                     else
