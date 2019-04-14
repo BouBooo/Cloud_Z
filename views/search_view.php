@@ -32,7 +32,15 @@
         <?php
         if($priv)
         {
-            echo "<div align='center'><b>We found your private file !</b></div>  ";
+            if($count > 0)
+            {
+                echo "<div align='center'><b>We found your private file !</b></div>";
+            }
+            else
+            {
+                echo "<div align='center'><b>That key doesn't match with any file..</b></div>";
+            }
+
         }
         ?>
             <table style="margin-top:2%; margin-left:2%; width:100%" class="table table-bordered table-dark">

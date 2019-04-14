@@ -28,6 +28,9 @@ if(!empty($_POST['private_file']))
         $req_files = $db->prepare('SELECT f.name, m.email FROM files f JOIN membres m ON f.member_id = m.id WHERE f.access = "private" AND f.file_key = ?');
         $req_files->execute(array($private_key));
 
+        // Check if key match with a private file
+        $count = $req_files->rowCount();
+
     }
 }
 
